@@ -1,7 +1,8 @@
 package com.pedro.PracticaMongoDB_05.controller;
 
 import com.pedro.PracticaMongoDB_05.exceptions.IdException;
-import com.pedro.PracticaMongoDB_05.model.Grupo;
+import com.pedro.PracticaMongoDB_05.model.dto.GrupoDTO;
+import com.pedro.PracticaMongoDB_05.model.entities.Grupo;
 import com.pedro.PracticaMongoDB_05.service.GrupoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,91 +16,60 @@ import java.util.List;
  * @version 1.0
  */
 @RestController
-@RequestMapping("/grupos") // Ruta base para todos los endpoints de este controlador
+@RequestMapping("/grupos")
 public class GrupoController {
 
     private final GrupoService grupoService;
 
-    // Inyección de dependencias mediante constructor
     public GrupoController(GrupoService grupoService) {
         this.grupoService = grupoService;
     }
 
-    /**
-     * Endpoint para crear un nuevo grupo.
-     *
-     * @param grupo El grupo a crear (en formato JSON en el cuerpo de la solicitud).
-     * @return Respuesta HTTP con un mensaje de éxito o error.
-     */
     @PostMapping("/crear")
-    public ResponseEntity<String> crearGrupo(@RequestBody Grupo grupo) {
+    public ResponseEntity<String> crearGrupo(@RequestBody GrupoDTO grupoDTO) {
         try {
-            grupoService.crearGrupo(grupo);
+            grupoService.crearGrupo(grupoDTO);
             return ResponseEntity.ok().body("Grupo creado correctamente");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    /**
-     * Endpoint para listar todos los grupos.
-     *
-     * @return Respuesta HTTP con la lista de grupos o un error.
-     */
     @GetMapping("/listar")
-    public ResponseEntity<List<Grupo>> listarGrupos() {
+    public ResponseEntity<List<GrupoDTO>> listarGrupos() {
         try {
-            List<Grupo> grupos = grupoService.getListGrupo();
+            List<GrupoDTO> grupos = grupoService.listarGrupos();
             return ResponseEntity.ok().body(grupos);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(null);
         }
     }
 
-    /**
-     * Endpoint para obtener un grupo por su ID.
-     *
-     * @param id El ID del grupo a buscar.
-     * @return Respuesta HTTP con el grupo encontrado o un error.
-     */
     @GetMapping("/listar/{id}")
-    public ResponseEntity<Grupo> listarGrupoPorId(@PathVariable String id) {
+    public ResponseEntity<GrupoDTO> listarGrupoPorId(@PathVariable String id) {
         try {
-            Grupo grupo = grupoService.getListGrupoById(id);
-            return ResponseEntity.ok().body(grupo);
+            GrupoDTO grupoDTO = grupoService.obtenerGrupoDTO(id);
+            return ResponseEntity.ok().body(grupoDTO);
         } catch (IdException e) {
             return ResponseEntity.badRequest().body(null);
         }
     }
 
-    /**
-     * Endpoint para borrar un grupo por su ID.
-     *
-     * @param id El ID del grupo a borrar.
-     * @return Respuesta HTTP con un mensaje de éxito o error.
-     */
-    @DeleteMapping("/borrar/{id}")
-    public ResponseEntity<String> borrarGrupo(@PathVariable String id) {
+    @PutMapping("/actualizar/{id}")
+    public ResponseEntity<String> actualizarGrupo(@PathVariable String id, @RequestBody GrupoDTO grupoDTO) {
         try {
-            grupoService.deleteByIdService(id);
-            return ResponseEntity.ok().body("Grupo borrado correctamente");
+            grupoService.actualizarGrupo(id, grupoDTO);
+            return ResponseEntity.ok().body("Grupo actualizado correctamente");
         } catch (IdException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    /**
-     * Endpoint para actualizar un grupo por su ID.
-     *
-     * @param id    El ID del grupo a actualizar.
-     * @param grupo El grupo con los nuevos datos (en formato JSON en el cuerpo de la solicitud).
-     * @return Respuesta HTTP con un mensaje de éxito o error.
-     */
-    @PutMapping("/actualizar/{id}")
-    public ResponseEntity<String> actualizarGrupo(@PathVariable String id, @RequestBody Grupo grupo) {
+    @DeleteMapping("/borrar/{id}")
+    public ResponseEntity<String> borrarGrupo(@PathVariable String id) {
         try {
-            grupoService.updateByIdService(id, grupo);
-            return ResponseEntity.ok().body("Grupo actualizado correctamente");
+            grupoService.eliminarGrupo(id);
+            return ResponseEntity.ok().body("Grupo borrado correctamente");
         } catch (IdException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

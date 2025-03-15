@@ -1,4 +1,4 @@
-package com.pedro.PracticaMongoDB_05.model;
+package com.pedro.PracticaMongoDB_05.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
