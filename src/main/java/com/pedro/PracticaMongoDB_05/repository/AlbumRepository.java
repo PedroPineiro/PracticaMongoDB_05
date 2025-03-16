@@ -13,7 +13,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AlbumRepository extends MongoRepository<Album, String> {
 
-    //busqueda de grupo por id
-    Album findByid(String id);
-
 }

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/albums")
+@RequestMapping("/mongo/albums")
 public class AlbumController {
 
     private final AlbumService albumService;

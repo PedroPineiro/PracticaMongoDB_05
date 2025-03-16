@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/grupos")
+@RequestMapping("/mongo/grupos")
 public class GrupoController {
 
     private final GrupoService grupoService;
