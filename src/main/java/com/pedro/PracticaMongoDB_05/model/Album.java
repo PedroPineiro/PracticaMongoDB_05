@@ -1,4 +1,4 @@
-package com.pedro.PracticaMongoDB_05.model.entities;
+package com.pedro.PracticaMongoDB_05.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

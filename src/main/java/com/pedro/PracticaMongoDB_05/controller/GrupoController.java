@@ -1,20 +1,13 @@
 package com.pedro.PracticaMongoDB_05.controller;
 
 import com.pedro.PracticaMongoDB_05.exceptions.IdException;
-import com.pedro.PracticaMongoDB_05.model.dto.GrupoDTO;
-import com.pedro.PracticaMongoDB_05.model.entities.Grupo;
+import com.pedro.PracticaMongoDB_05.model.Grupo;
 import com.pedro.PracticaMongoDB_05.service.GrupoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * Controlador REST para manejar las operaciones CRUD sobre los documentos de "Grupo" en la base de datos MongoDB.
- * Este controlador interactúa con el servicio GrupoService para realizar operaciones de creación, lectura, actualización y eliminación (CRUD).
- * @author pedro
- * @version 1.0
- */
 @RestController
 @RequestMapping("/grupos")
 public class GrupoController {
@@ -26,19 +19,19 @@ public class GrupoController {
     }
 
     @PostMapping("/crear")
-    public ResponseEntity<String> crearGrupo(@RequestBody GrupoDTO grupoDTO) {
+    public ResponseEntity<String> crearGrupo(@RequestBody Grupo grupo) {
         try {
-            grupoService.crearGrupo(grupoDTO);
+            grupoService.crearGrupo(grupo);
             return ResponseEntity.ok().body("Grupo creado correctamente");
-        } catch (Exception e) {
+        } catch (IdException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @GetMapping("/listar")
-    public ResponseEntity<List<GrupoDTO>> listarGrupos() {
+    public ResponseEntity<List<Grupo>> listarGrupos() {
         try {
-            List<GrupoDTO> grupos = grupoService.listarGrupos();
+            List<Grupo> grupos = grupoService.listarGrupos();
             return ResponseEntity.ok().body(grupos);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(null);
@@ -46,19 +39,19 @@ public class GrupoController {
     }
 
     @GetMapping("/listar/{id}")
-    public ResponseEntity<GrupoDTO> listarGrupoPorId(@PathVariable String id) {
+    public ResponseEntity<Grupo> listarGrupoPorId(@PathVariable String id) {
         try {
-            GrupoDTO grupoDTO = grupoService.obtenerGrupoDTO(id);
-            return ResponseEntity.ok().body(grupoDTO);
+            Grupo grupo = grupoService.obtenerGrupo(id);
+            return ResponseEntity.ok().body(grupo);
         } catch (IdException e) {
             return ResponseEntity.badRequest().body(null);
         }
     }
 
     @PutMapping("/actualizar/{id}")
-    public ResponseEntity<String> actualizarGrupo(@PathVariable String id, @RequestBody GrupoDTO grupoDTO) {
+    public ResponseEntity<String> actualizarGrupo(@PathVariable String id, @RequestBody Grupo grupo) {
         try {
-            grupoService.actualizarGrupo(id, grupoDTO);
+            grupoService.actualizarGrupo(id, grupo);
             return ResponseEntity.ok().body("Grupo actualizado correctamente");
         } catch (IdException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

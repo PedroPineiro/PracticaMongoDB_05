@@ -1,17 +1,13 @@
 package com.pedro.PracticaMongoDB_05.controller;
 
 import com.pedro.PracticaMongoDB_05.exceptions.IdException;
-import com.pedro.PracticaMongoDB_05.model.dto.AlbumDTO;
+import com.pedro.PracticaMongoDB_05.model.Album;
 import com.pedro.PracticaMongoDB_05.service.AlbumService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * Controlador de la clase de álbumes (endpoints para la API REST).
- * @version 1.0
- */
 @RestController
 @RequestMapping("/albums")
 public class AlbumController {
@@ -23,9 +19,9 @@ public class AlbumController {
     }
 
     @PostMapping("/crear")
-    public ResponseEntity<String> crearAlbum(@RequestBody AlbumDTO albumDTO) {
+    public ResponseEntity<String> crearAlbum(@RequestBody Album album) {
         try {
-            albumService.crearAlbum(albumDTO);
+            albumService.crearAlbum(album);
             return ResponseEntity.ok().body("Álbum creado correctamente");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -33,9 +29,9 @@ public class AlbumController {
     }
 
     @GetMapping("/listar")
-    public ResponseEntity<List<AlbumDTO>> listarAlbumes() {
+    public ResponseEntity<List<Album>> listarAlbumes() {
         try {
-            List<AlbumDTO> albumes = albumService.listarAlbumes();
+            List<Album> albumes = albumService.listarAlbumes();
             return ResponseEntity.ok().body(albumes);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(null);
@@ -43,19 +39,19 @@ public class AlbumController {
     }
 
     @GetMapping("/listar/{id}")
-    public ResponseEntity<AlbumDTO> listarAlbumPorId(@PathVariable String id) {
+    public ResponseEntity<Album> listarAlbumPorId(@PathVariable String id) {
         try {
-            AlbumDTO albumDTO = albumService.listarAlbumPorId(id);
-            return ResponseEntity.ok().body(albumDTO);
+            Album album = albumService.listarAlbumPorId(id);
+            return ResponseEntity.ok().body(album);
         } catch (IdException e) {
             return ResponseEntity.badRequest().body(null);
         }
     }
 
     @PutMapping("/actualizar/{id}")
-    public ResponseEntity<String> actualizarAlbum(@PathVariable String id, @RequestBody AlbumDTO albumDTO) {
+    public ResponseEntity<String> actualizarAlbum(@PathVariable String id, @RequestBody Album album) {
         try {
-            albumService.actualizarAlbum(id, albumDTO);
+            albumService.actualizarAlbum(id, album);
             return ResponseEntity.ok().body("Álbum actualizado correctamente");
         } catch (IdException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

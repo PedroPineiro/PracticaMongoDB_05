@@ -1,6 +1,6 @@
 package com.pedro.PracticaMongoDB_05.repository;
 
-import com.pedro.PracticaMongoDB_05.model.entities.Album;
+import com.pedro.PracticaMongoDB_05.model.Album;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
